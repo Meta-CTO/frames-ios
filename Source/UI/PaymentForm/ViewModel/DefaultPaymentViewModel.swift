@@ -180,9 +180,11 @@ extension DefaultPaymentViewModel: PaymentViewControllerDelegate {
         logger.log(.paymentFormSubmitted)
         isLoading = true
         checkoutAPIService.createToken(.card(card)) { [weak self] result in
-            self?.logTokenResult(result)
-            self?.isLoading = false
-            self?.cardTokenRequested?(result)
+            DispatchQueue.main.async {
+                self?.logTokenResult(result)
+                self?.isLoading = false
+                self?.cardTokenRequested?(result)
+            }
         }
     }
 
